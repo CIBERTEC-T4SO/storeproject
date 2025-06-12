@@ -42,11 +42,23 @@ Proyecto de ejemplo para una tienda utilizando Java, Spring Boot y Maven.
 4. Crea un Pull Request en GitHub.
 
 
-# Agregando SQL Server:
+# Opcional, inciando SQL Server en Docker:
 
    ```bash
    docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=Evaluation" -p 1433:1433  --name sqlpreview --hostname sqlpreview -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
    fuente: https://hub.docker.com/r/microsoft/mssql-server/
    ```
 
+# Utilizar variables de entorno para Bases de datos y propiedades de conexión
+ #### 1) Segun la BD que requieras utilizar, actualiza la información de los archivos:
+   - Para MySQL: `.env.mysql.properties` 
+   - Para SQL Server: `.env.mssql.properties`
 
+#### 2) En application.properties, actualizar la propiedad, segun la conexion requerida: 
+   ```bash
+   Para MySQL:
+   spring.config.import=file:.env.mysql.properties
+   
+   Para SQL Server:
+   spring.config.import=file:.env.mssql.properties
+   ```
