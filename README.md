@@ -40,3 +40,13 @@ Proyecto de ejemplo para una tienda utilizando Java, Spring Boot y Maven.
    git push origin feature/nueva-funcionalidad
    ```
 4. Crea un Pull Request en GitHub.
+
+
+# Agregando SQL Server:
+
+   ```bash
+   docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=Evaluation" -p 1433:1433  --name sqlpreview --hostname sqlpreview -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
+   fuente: https://hub.docker.com/r/microsoft/mssql-server/
+   ```
+
+
