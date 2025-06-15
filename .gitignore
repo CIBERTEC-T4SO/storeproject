@@ -92,3 +92,4 @@ nb-configuration.xml
 
 #Ignorar variabels locales
 .env
+env.properties
