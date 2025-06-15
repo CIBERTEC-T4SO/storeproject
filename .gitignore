@@ -90,7 +90,7 @@ nb-configuration.xml
 *.log
 
 ##############################
-## Ignorar variables locales
+## Ignorar variables locales xd
 ##############################
 .env
 
