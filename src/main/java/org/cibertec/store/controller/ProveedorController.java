@@ -15,18 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class ProveedorController {
 
 
-    // Solo par aprueba en clase, no esaprte del mantenimiento de proveedores
-    @Value("${mensaje.mantenimiento}")
-    private   String mensajeMantenimiento;
-
-    @Value("${mensaje.mantenimiento.no}")
-    private   String mensajeMantenimientoNo;
-
-    @Value("${mantenimiento}")
-    private   boolean mantenimientoHabilitado;
-    // Solo par aprueba en clase, no esaprte del mantenimiento de proveedores
-
-
     @Autowired
     private ProveedorService proveedorService;
 
@@ -36,16 +24,6 @@ public class ProveedorController {
 
     @GetMapping("/mantenimiento")
     String paginaprincipal(Model model) {
-
-        // Solo para prueba en clase, no esaprte del mantenimiento de proveedores
-        if(mantenimientoHabilitado) {
-            model.addAttribute("mensaje", mensajeMantenimiento);
-        } else {
-            model.addAttribute("mensaje", mensajeMantenimientoNo);
-        }
-        // fin Solo para prueba en clase, no esaprte del mantenimiento de proveedores
-
-      //  System.out.println("Utilizando API Regiones del Perú: "+endpintApiRegiones);
         ProveedorEntity proveedor= new ProveedorEntity(); /*Creamos un objeto proveedor vacío para el formulario*/
         /*Preparando info para la Vista HTML*/
         model.addAttribute("lista",proveedorService.listarTodos());
