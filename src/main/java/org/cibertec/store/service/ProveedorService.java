@@ -19,8 +19,27 @@ public class ProveedorService {
 
 
 
-    List<ProveedorEntity> listarTodos() {
+      public List<ProveedorEntity> listarTodos() {
          return repository.findAll();
      }
+
+     /** Guardar un proveedor en la base de datos.
+      * @param proveedor El proveedor a guardar.
+      */
+     public void guardar(ProveedorEntity proveedor) {
+         repository.save(proveedor);
+     }
+
+
+     public ProveedorEntity buscarPorId(Integer id) {
+
+         return repository.findById(id).orElse(new ProveedorEntity());
+         //.orElse(new ProveedorEntity());
+
+     }
+
+    public void eliminar(Integer id) {
+        repository.deleteById(id);
+    }
 
 }

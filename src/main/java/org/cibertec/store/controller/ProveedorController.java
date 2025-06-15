@@ -1,23 +1,88 @@
 package org.cibertec.store.controller;
 
+import org.cibertec.store.entity.ProveedorEntity;
+import org.cibertec.store.service.CountryService;
 import org.cibertec.store.service.ProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/proveedor")
 public class ProveedorController {
 
+
+    // Solo par aprueba en clase, no esaprte del mantenimiento de proveedores
+    @Value("${mensaje.mantenimiento}")
+    private   String mensajeMantenimiento;
+
+    @Value("${mensaje.mantenimiento.no}")
+    private   String mensajeMantenimientoNo;
+
+    @Value("${mantenimiento}")
+    private   boolean mantenimientoHabilitado;
+    // Solo par aprueba en clase, no esaprte del mantenimiento de proveedores
+
+
     @Autowired
     private ProveedorService proveedorService;
 
+    @Autowired
+    private CountryService paisService;
 
-    @GetMapping("/hello/{id}")
-    String asdasdasdsadasdasdsadasdsadasdasdsa(@PathVariable Integer id) {
-        System.out.println("ID recibido: " + id);
-        return "hola";
+
+    @GetMapping("/mantenimiento")
+    String paginaprincipal(Model model) {
+
+        // Solo para prueba en clase, no esaprte del mantenimiento de proveedores
+        if(mantenimientoHabilitado) {
+            model.addAttribute("mensaje", mensajeMantenimiento);
+        } else {
+            model.addAttribute("mensaje", mensajeMantenimientoNo);
+        }
+        // fin Solo para prueba en clase, no esaprte del mantenimiento de proveedores
+
+      //  System.out.println("Utilizando API Regiones del Perú: "+endpintApiRegiones);
+        ProveedorEntity proveedor= new ProveedorEntity(); /*Creamos un objeto proveedor vacío para el formulario*/
+        /*Preparando info para la Vista HTML*/
+        model.addAttribute("lista",proveedorService.listarTodos());
+        model.addAttribute("paises",paisService.listarTodos());
+        model.addAttribute("proveedor",proveedor);
+
+
+        return "proveedor/mantenimiento"; /*Aquí se muestra el HTML  */
     }
+
+    @PostMapping("/guardar")
+    public String guadar(@ModelAttribute ProveedorEntity proveedor
+               /*   BindingResult result, Model model*/) {
+        proveedorService.guardar(proveedor);
+        return "redirect:/proveedor/mantenimiento"; /*Redirecciona a la página de mantenimiento*/
+    }
+
+    @GetMapping("/editar")
+    String editar(@RequestParam("id") Integer   id,Model model) {
+        ProveedorEntity proveedor= proveedorService.buscarPorId(id); /*Creamos un objeto proveedor vacío para el formulario*/
+
+
+        /*Preparando info para la Vista HTML*/
+        model.addAttribute("lista",proveedorService.listarTodos());
+        model.addAttribute("paises",paisService.listarTodos());
+        model.addAttribute("proveedor",proveedor);
+
+
+        return "proveedor/mantenimiento"; /*Aquí se muestra el HTML  */
+    }
+
+
+    @GetMapping("/eliminar/{id}")
+    String eliminar(@PathVariable Integer   id) {
+         proveedorService.eliminar(id);
+        return "redirect:/proveedor/mantenimiento";
+    }
+
+
 }
