@@ -30,7 +30,7 @@ public class ProveedorController {
         model.addAttribute("paises", paisService.listarTodos());
         model.addAttribute("proveedor", new ProveedorEntity());
 
-        return "/proveedor/mantenimiento";
+        return "proveedor/mantenimiento";
     }
 
     @GetMapping("/editar")
@@ -38,7 +38,7 @@ public class ProveedorController {
         model.addAttribute("paises",paisService.listarTodos());
         model.addAttribute("proveedor",proveedorService.buscarPorId(id) );
 
-        return "/proveedor/editar";
+        return "proveedor/editar";
     }
 
     @GetMapping("/crear")
