@@ -18,7 +18,7 @@
         <nav class="col-md-3 col-lg-2 d-md-block bg-white sidebar p-3 border-end">
             <ul class="nav flex-column">
                 <li class="nav-item"><a class="nav-link active" href="/proveedor/mantenimiento">Lista de Proveedores</a></li>
-                <li class="nav-item"><a class="nav-link active" href="/proveedor/guardar">Guardar Proveedor</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/proveedor/crear">Registrar Proveedor</a></li>
                 <!-- Agrega más enlaces si lo necesitas -->
             </ul>
         </nav>
@@ -26,7 +26,7 @@
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="pt-4 pb-2 mb-4 border-bottom d-flex justify-content-between align-items-center">
                 <h2>Mantenimiento de Proveedores</h2>
-                <button class="btn btn-success" onclick="abrirModalProveedor()">+ Nuevo Proveedor</button>
+                <button class="btn btn-success" onclick="window.location.href='/proveedor/crear'">+ Nuevo Proveedor</button>
             </div>
             <!-- Tabla de proveedores -->
             <div class="table-responsive">
@@ -120,15 +120,7 @@
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    function abrirModalProveedor(editar = false) {
-        new bootstrap.Modal(document.getElementById('modalProveedor')).show();
-        // Aquí puedes cargar datos si es edición
-    }
-    function abrirModalEliminar() {
-        new bootstrap.Modal(document.getElementById('modalEliminarProveedor')).show();
-    }
-</script>
+
 </body>
 </html>
 

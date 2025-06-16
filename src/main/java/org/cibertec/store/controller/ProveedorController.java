@@ -33,8 +33,10 @@ public class ProveedorController {
         return "proveedor/mantenimiento";
     }
 
-    @GetMapping("/editar")
-    public String editar(@RequestParam("id") Integer id, Model model) {
+//    @GetMapping("/editar")
+//    public String editar(@RequestParam("id") Integer id, Model model) {
+    @GetMapping("/editar/{id}")
+    String editar(@PathVariable Integer id, Model model) {
         model.addAttribute("paises",paisService.listarTodos());
         model.addAttribute("proveedor",proveedorService.buscarPorId(id) );
 
@@ -46,7 +48,7 @@ public class ProveedorController {
         model.addAttribute("paises",paisService.listarTodos());
         model.addAttribute("proveedor",new ProveedorEntity() );
 
-        return "/proveedor/editar";
+        return "proveedor/editar";
     }
 
 
@@ -60,6 +62,6 @@ public class ProveedorController {
     @GetMapping("/eliminar/{id}")
     String eliminar(@PathVariable Integer id) {
         proveedorService.eliminar(id);
-        return "redirect:/proveedor/mantenimiento";
+        return "redirect:proveedor/mantenimiento";
     }
 }
