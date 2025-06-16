@@ -1,29 +1,31 @@
 package org.cibertec.store.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name="PROVIDER")
+@Table(name="provider")
 public class ProveedorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name="id")
     private Integer id;
 
-    @Column(name="NUMDOC")
+    @Column(name="doc_number")
     private String doc;
 
-    @Column(name="NAME")
+    @Column(name="name")
     private String nombre;
 
-    @Column(name="PHONE")
+    @Column(name="phone")
     private String telefono;
 
-    @Column(name="EMAIL")
+    @Column(name="email")
     private String email;
+
+    @ManyToOne
+    @JoinColumn(name = "idpais")
+    private CountryEntity pais;
 }

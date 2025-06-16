@@ -21,8 +21,17 @@ public class ProveedorService {
     public List<ProveedorEntity> listarTodos() {
         return repo.findAll();
     }
-//    public ProveedorEntity buscarPorId(Integer id) {    }
-//    public void salvar(ProveedorEntity proveedorEntity) {}
-//    public void eliminar (Integer id) {}
+
+    public void guardar(ProveedorEntity proveedor) {
+        repo.save(proveedor);
+    }
+
+    public void eliminar(Integer id) {
+        repo.deleteById(id);
+    }
+
+    public ProveedorEntity buscarPorId(Integer id) {
+        return repo.findById(id).orElse(new ProveedorEntity());
+    }
 
 }

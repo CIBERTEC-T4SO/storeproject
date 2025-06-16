@@ -91,4 +91,4 @@ nb-configuration.xml
 *.log
 
 #ignorar variables locales
-.env
+env.properties
