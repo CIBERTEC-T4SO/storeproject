@@ -91,3 +91,4 @@ nb-configuration.xml
 
 #Ignorar variables MYSQL de acceso
 .env
+env.properties
