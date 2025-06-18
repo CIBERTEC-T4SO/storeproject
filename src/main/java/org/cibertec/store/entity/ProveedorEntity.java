@@ -24,6 +24,9 @@ public class ProveedorEntity {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "hash")
+    private String hash;
+
     @ManyToOne
     @JoinColumn(name = "idpais")
     private CountryEntity pais;

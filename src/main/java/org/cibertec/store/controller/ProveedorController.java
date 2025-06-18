@@ -3,6 +3,7 @@ package org.cibertec.store.controller;
 import org.cibertec.store.entity.ProveedorEntity;
 import org.cibertec.store.service.CountryService;
 import org.cibertec.store.service.ProveedorService;
+import org.cibertec.store.util.HashUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -14,18 +15,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/proveedor")
 public class ProveedorController {
 
-
-    // Solo par aprueba en clase, no esaprte del mantenimiento de proveedores
-    @Value("${mensaje.mantenimiento}")
-    private   String mensajeMantenimiento;
-
-    @Value("${mensaje.mantenimiento.no}")
-    private   String mensajeMantenimientoNo;
-
-    @Value("${mantenimiento}")
-    private   boolean mantenimientoHabilitado;
-    // Solo par aprueba en clase, no esaprte del mantenimiento de proveedores
-
+    @Value("${api.name.author}")
+    private String prop_author;
 
     @Autowired
     private ProveedorService proveedorService;
@@ -34,55 +25,36 @@ public class ProveedorController {
     private CountryService paisService;
 
 
-    @GetMapping("/mantenimiento")
+    @GetMapping("/inicio")
     String paginaprincipal(Model model) {
-
-        // Solo para prueba en clase, no esaprte del mantenimiento de proveedores
-        if(mantenimientoHabilitado) {
-            model.addAttribute("mensaje", mensajeMantenimiento);
-        } else {
-            model.addAttribute("mensaje", mensajeMantenimientoNo);
-        }
-        // fin Solo para prueba en clase, no esaprte del mantenimiento de proveedores
-
-      //  System.out.println("Utilizando API Regiones del Perú: "+endpintApiRegiones);
-        ProveedorEntity proveedor= new ProveedorEntity(); /*Creamos un objeto proveedor vacío para el formulario*/
-        /*Preparando info para la Vista HTML*/
-        model.addAttribute("lista",proveedorService.listarTodos());
-        model.addAttribute("paises",paisService.listarTodos());
+        ProveedorEntity proveedor= new ProveedorEntity();// id=null
+        model.addAttribute("lista",proveedorService.getAll());
+        model.addAttribute("paises",paisService.getAll());
         model.addAttribute("proveedor",proveedor);
-
-
-        return "proveedor/mantenimiento"; /*Aquí se muestra el HTML  */
+        return "proveedores";
     }
 
     @PostMapping("/guardar")
-    public String guadar(@ModelAttribute ProveedorEntity proveedor
-               /*   BindingResult result, Model model*/) {
-        proveedorService.guardar(proveedor);
-        return "redirect:/proveedor/mantenimiento"; /*Redirecciona a la página de mantenimiento*/
+    public String guardarProveedor(@ModelAttribute ProveedorEntity proveedor) {
+
+        String newHash=prop_author+proveedor.getDoc()+proveedor.getPais().getName();
+        proveedor.setHash(HashUtil.Nuevo((newHash)));
+        proveedorService.create(proveedor);
+        return "redirect:/proveedor/inicio";
     }
 
     @GetMapping("/editar")
-    String editar(@RequestParam("id") Integer   id,Model model) {
-        ProveedorEntity proveedor= proveedorService.buscarPorId(id); /*Creamos un objeto proveedor vacío para el formulario*/
-
-
-        /*Preparando info para la Vista HTML*/
-        model.addAttribute("lista",proveedorService.listarTodos());
-        model.addAttribute("paises",paisService.listarTodos());
+    public String mostrarFormularioEdicion(@RequestParam("id") Integer id, Model model) {
+        ProveedorEntity proveedor = proveedorService.getById(id); //ID:1,2,3,4
+        model.addAttribute("lista",proveedorService.getAll());
+        model.addAttribute("paises",paisService.getAll());
         model.addAttribute("proveedor",proveedor);
-
-
-        return "proveedor/mantenimiento"; /*Aquí se muestra el HTML  */
+        return "proveedores";
     }
-
 
     @GetMapping("/eliminar/{id}")
-    String eliminar(@PathVariable Integer   id) {
-         proveedorService.eliminar(id);
-        return "redirect:/proveedor/mantenimiento";
+    public String eliminarProveedor(@PathVariable Integer id) {
+        proveedorService.remove(id);
+        return "redirect:/proveedor/inicio";
     }
-
-
 }
